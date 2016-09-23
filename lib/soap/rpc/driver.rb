@@ -76,6 +76,14 @@ class Driver
     "#<#{self.class}:#{@proxy.inspect}>"
   end
 
+  def bodyhandler
+    @proxy.bodyhandler
+  end
+
+  def bodyhandler=(bodyhandler)
+    @proxy.bodyhandler = bodyhandler
+  end
+
   def httpproxy
     options["protocol.http.proxy"]
   end

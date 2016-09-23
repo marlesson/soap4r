@@ -37,6 +37,7 @@ public
   attr_reader :headerhandler
   attr_reader :filterchain
   attr_reader :streamhandler
+  attr_accessor :bodyhandler
 
   attr_accessor :mapping_registry
   attr_accessor :literal_mapping_registry
@@ -63,6 +64,7 @@ public
     @filterchain = Filter::FilterChain.new
     @mapping_registry = nil
     @literal_mapping_registry = ::SOAP::Mapping::LiteralRegistry.new
+    @bodyhandler = nil
   end
 
   def inspect
@@ -127,6 +129,7 @@ public
       op_info.request_body(params, @mapping_registry,
         @literal_mapping_registry, mapping_opt)
     )
+    @bodyhandler.call(req_body) if not @bodyhandler.nil?
     reqopt = create_encoding_opt(
       :soapaction => op_info.soapaction || @soapaction,
       :envelopenamespace => @options["soap.envelope.requestnamespace"],
